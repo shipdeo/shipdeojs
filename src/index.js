@@ -66,17 +66,29 @@ class ShipdeoCore {
     async shipmentOngkir(shippingRequest) {
         try {
             const response = await axios.post(`${this.baseUrl}/v1/couriers/pricing`, shippingRequest, {
-              headers: {
-                'Content-Type': 'application/json',
-                'accept': 'application/json',
-                'Authorization': `Bearer ${this.accessToken}`
-              }
+                headers: {
+                    'Content-Type': 'application/json',
+                    'accept': 'application/json',
+                    'Authorization': `Bearer ${this.accessToken}`
+                }
             });
-            
+
             return response.data;
-          } catch (error) {
+        } catch (error) {
             throw error;
-          }
+        }
+    }
+
+    async orderCreate(orderCreateRequest) {
+
+    }
+
+    async orderUpdate(orderId, orderUpdateRequest) {
+
+    }
+
+    async orderCancel(orderId, reason) {
+        
     }
 }
 
