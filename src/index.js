@@ -1,5 +1,6 @@
 const axios = require('axios');
 const AccessToken = require('./model/access-token');
+const ShipmentRequest = require('./model/request/shipping.req');
 
 /**
  * Class representing an OAuth client for client_credentials OAuth flow.
@@ -48,4 +49,35 @@ class ShipdeoAuth {
     }
 }
 
-module.exports = { ShipdeoAuth };
+/**
+ * Class representing an integration api SHIPDEO flow.
+ */
+class ShipdeoCore {
+    constructor(baseUrl, accessToken) {
+        this.baseUrl = baseUrl;
+        this.accessToken = accessToken;
+    }
+
+    /**
+     * 
+     * @param {ShipmentRequest} shippingRequest body request can see on class ShimpentRequest
+     * @returns 
+     */
+    async shipmentOngkir(shippingRequest) {
+        try {
+            const response = await axios.post(`${this.baseUrl}/v1/couriers/pricing`, shippingRequest, {
+              headers: {
+                'Content-Type': 'application/json',
+                'accept': 'application/json',
+                'Authorization': `Bearer ${this.accessToken}`
+              }
+            });
+            
+            return response.data;
+          } catch (error) {
+            throw error;
+          }
+    }
+}
+
+module.exports = { ShipdeoAuth, ShipdeoCore };
