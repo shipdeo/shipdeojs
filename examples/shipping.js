@@ -1,13 +1,13 @@
 const { ShipdeoCore } = require("../src");
-const ShippingItemRequest = require("../src/model/request/shipping-item.req");
-const ShipmentRequest = require("../src/model/request/shipping.req");
+const ItemRequest = require("../src/model/request/item");
+const ShippingRequest = require("../src/model/request/shipping");
 
-const accessToken = "80d7c9dd62be00ae392c8b13989eecbf00862ce5";
+const accessToken = "2949e5d484ef798e974e0884ccd261c9b88f4af5";
 const baseUrl = "https://main-api-development.shipdeo.com"
 
 const shipdeoCore = new ShipdeoCore(baseUrl, accessToken);
 
-const item = new ShippingItemRequest({
+const item = new ItemRequest({
     "value": 100000,
     "height": 11,
     "width": 11,
@@ -20,7 +20,7 @@ const item = new ShippingItemRequest({
     "description": "ini baju kerja",
     "is_wood_package": false
 })
-const shippingRequest = new ShipmentRequest({
+const shippingRequest = new ShippingRequest({
     "couriers": [
         "ninja", "sicepat"
     ],

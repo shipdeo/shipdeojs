@@ -1,6 +1,7 @@
 const axios = require('axios');
 const AccessToken = require('./model/access-token');
-const ShipmentRequest = require('./model/request/shipping.req');
+const ShipmentRequest = require('./model/request/shipping');
+const OrderRequest = require('./model/request/order');
 
 /**
  * Class representing an OAuth client for client_credentials OAuth flow.
@@ -79,16 +80,71 @@ class ShipdeoCore {
         }
     }
 
-    async orderCreate(orderCreateRequest) {
+    /**
+     * 
+     * @param {OrderRequest} orderRequest body request can see on class OrderRequest
+     * @returns 
+     */
+    async orderCreate(orderRequest) {
+        try {
+            const response = await axios.post(`${this.baseUrl}/v1/couriers/orders`, orderRequest, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'accept': 'application/json',
+                    'Authorization': `Bearer ${this.accessToken}`
+                }
+            });
 
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
     }
 
-    async orderUpdate(orderId, orderUpdateRequest) {
+    /**
+     * 
+     * @param {string} orderId order id shipdeo
+     * @param {OrderRequest} orderRequest body request can see on class OrderRequest
+     * @returns 
+     */
+    async orderUpdate(orderId, orderRequest) {
+        try {
+            const response = await axios.put(`${this.baseUrl}/v1/couriers/orders/${orderId}`, orderRequest, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'accept': 'application/json',
+                    'Authorization': `Bearer ${this.accessToken}`
+                }
+            });
 
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
     }
 
-    async orderCancel(orderId, reason) {
-        
+    /**
+     * 
+     * @param {string} orderId order id shipdeo
+     * @param {string} reason reason cancel request
+     * @returns 
+     */
+    async orderRequestCancel(orderId, reason) {
+        try {
+            const response = await axios.put(`${this.baseUrl}/v1/couriers/orders/${orderId}`, {
+                cancel_reason: reason
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'accept': 'application/json',
+                    'Authorization': `Bearer ${this.accessToken}`
+                }
+            });
+
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
     }
 }
 

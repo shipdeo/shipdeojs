@@ -1,6 +1,6 @@
-const ShippingItemRequest = require("./shipping-item.req");
+const ItemRequest = require("./item");
 
-class ShipmentRequest {
+class ShippingRequest {
 
     /**
     * Constructs a shipment instance from provided data.
@@ -19,7 +19,7 @@ class ShipmentRequest {
     * @param {string} destination_subdistrict_code - Subdistrict code of the destination.
     * @param {string} destination_subdistrict_name - Subdistrict name of the destination.
     * @param {string} destination_postal_code - Postal code of the destination.
-    * @param {ShippingItemRequest[]} items - Array of items included in the shipment.
+    * @param {ItemRequest[]} items - Array of items included in the shipment.
     */
     constructor({ couriers, is_cod, origin_lat, origin_long, origin_city_code, origin_city_name, origin_subdistrict_code, origin_subdistrict_name, destination_lat, destination_long, destination_city_code, destination_city_name, destination_subdistrict_code, destination_subdistrict_name, destination_postal_code, items }) {
         this.couriers = couriers;
@@ -38,8 +38,8 @@ class ShipmentRequest {
         this.destination_subdistrict_code = destination_subdistrict_code;
         this.destination_subdistrict_name = destination_subdistrict_name;
         this.destination_postal_code = destination_postal_code;
-        this.items = items.map(item => new ShippingItemRequest(item));
+        this.items = items.map(item => new ItemRequest(item));
     }
 }
 
-module.exports = ShipmentRequest;
+module.exports = ShippingRequest;
