@@ -146,6 +146,28 @@ class ShipdeoCore {
             throw error;
         }
     }
+
+    /**
+     * Service push data to 3pl with delivery_type pickup or dropoff, pickup for add schedule courier pickup package to origin and dropoff is process to drop package to gerai.
+     * @param {string} orderId order id shipdeo
+     * @param {OrderConfirmRequest} orderConfirmRequest body request can see on class OrderConfirm
+     * @returns 
+     */
+    async orderConfirm(orderId, orderConfirmRequest) {
+        try {
+            const response = await axios.put(`${this.baseUrl}/v1/couriers/orders/${orderId}`, orderConfirmRequest, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'accept': 'application/json',
+                    'Authorization': `Bearer ${this.accessToken}`
+                }
+            });
+
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = { ShipdeoAuth, ShipdeoCore };
