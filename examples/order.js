@@ -5,7 +5,7 @@ const OrderTransactionRequest = require("../src/model/request/order-transaction"
 
 const order = async () => {
     try {
-        const accessToken = "2949e5d484ef798e974e0884ccd261c9b88f4af5";
+        const accessToken = "e50fc84aa219a03f066a5c812cb1bccc04d66690";
         const baseUrl = "https://main-api-development.shipdeo.com"
 
         const shipdeoCore = new ShipdeoCore(baseUrl, accessToken);

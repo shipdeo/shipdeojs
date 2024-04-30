@@ -2,6 +2,7 @@ const axios = require('axios');
 const AccessToken = require('./model/access-token');
 const ShipmentRequest = require('./model/request/shipping');
 const OrderRequest = require('./model/request/order');
+const OrderConfirmRequest = require('./model/request/order-confirm');
 
 /**
  * Class representing an OAuth client for client_credentials OAuth flow.
@@ -67,11 +68,7 @@ class ShipdeoCore {
     async shipmentOngkir(shippingRequest) {
         try {
             const response = await axios.post(`${this.baseUrl}/v1/couriers/pricing`, shippingRequest, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'accept': 'application/json',
-                    'Authorization': `Bearer ${this.accessToken}`
-                }
+                headers: this.getHeaders()
             });
 
             return response.data;
@@ -88,11 +85,7 @@ class ShipdeoCore {
     async orderCreate(orderRequest) {
         try {
             const response = await axios.post(`${this.baseUrl}/v1/couriers/orders`, orderRequest, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'accept': 'application/json',
-                    'Authorization': `Bearer ${this.accessToken}`
-                }
+                headers: this.getHeaders()
             });
 
             return response.data;
@@ -110,11 +103,7 @@ class ShipdeoCore {
     async orderUpdate(orderId, orderRequest) {
         try {
             const response = await axios.put(`${this.baseUrl}/v1/couriers/orders/${orderId}`, orderRequest, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'accept': 'application/json',
-                    'Authorization': `Bearer ${this.accessToken}`
-                }
+                headers: this.getHeaders()
             });
 
             return response.data;
@@ -134,16 +123,38 @@ class ShipdeoCore {
             const response = await axios.put(`${this.baseUrl}/v1/couriers/orders/${orderId}`, {
                 cancel_reason: reason
             }, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'accept': 'application/json',
-                    'Authorization': `Bearer ${this.accessToken}`
-                }
+                headers: this.getHeaders()
             });
 
             return response.data;
         } catch (error) {
             throw error;
+        }
+    }
+
+    /**
+     * Service push data to 3pl with delivery_type pickup or dropoff, pickup for add schedule courier pickup package to origin and dropoff is process to drop package to gerai.
+     * @param {string} orderId order id shipdeo
+     * @param {OrderConfirmRequest} orderConfirmRequest body request can see on class OrderConfirm
+     * @returns 
+     */
+    async orderConfirm(orderId, orderConfirmRequest) {
+        try {
+            const response = await axios.patch(`${this.baseUrl}/v1/couriers/orders/${orderId}`, orderConfirmRequest, {
+                headers: this.getHeaders()
+            });
+
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    getHeaders() {
+        return {
+            'Content-Type': 'application/json',
+            'accept': 'application/json',
+            'Authorization': `Bearer ${this.accessToken}`
         }
     }
 }
