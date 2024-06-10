@@ -18,7 +18,7 @@
     "prettier": "^3.2.5"
   },
   "dependencies": {
-    "axios": "^1.6.8"
+    "axios": "^1.7.1"
   },
   "repository":"https://github.com/shipdeo/shipdeojs"
 }
